@@ -1,0 +1,285 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+yarn.lock
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Testing
+/coverage
+.nyc_output/
+junit.xml
+test-report.xml
+
+# Production
+/build
+/dist
+/out
+/storybook-static
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.staging.local
+!.env.example
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+.history/
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Cache
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+.npm
+.next/
+.nuxt/
+.vuepress/dist
+.temp
+.docusaurus
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.webpack/
+.grunt
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Generated files
+src/**/*.css.d.ts
+src/**/*.generated.*
+generated/
+*.generated.*
+*.min.css
+*.min.js
+stats.json
+
+# Compiled binary addons
+/build/Release
+
+# Debug
+debug.log
+debug/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# PWA
+**/public/workbox-*.js
+**/public/sw.js
+**/public/service-worker.js
+
+# Storybook
+storybook-static/
+
+# Rollup
+.rollup.cache/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Jest
+.jest-cache/
+
+# Bundle analyzer
+stats.html
+report.html
+
+# Local Netlify folder
+.netlify
+
+# Vercel
+.vercel
+
+# Turbo
+.turbo
+
+# Build artifacts
+dist-ssr
+*.local
+
+# Coverage directory
+coverage/
+coverage-ts/
+coverage-e2e/
+
+# Sentry
+.sentryclirc
+
+# Lighthouse
+.lighthouseci/
+
+# Capacitor
+ios/
+android/
+
+# Cordova
+www/
+platforms/
+plugins/
+hooks/
+
+# Electron
+out/
+dist_electron/
+
+# Secrets
+*.pem
+*.key
+*.cert
+*.crt
+*.csr
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+secrets.yml
+secrets.yaml
+secrets.json
+secrets.xml
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Snowpack
+web_modules/
+
+# Amplify
+amplify/\#current-cloud-backend
+amplify/.config/local-*
+amplify/logs
+amplify/mock-data
+amplify/backend/amplify-meta.json
+amplify/backend/.temp
+build/
+dist/
+node_modules/
+aws-exports.js
+awsconfiguration.json
+amplifyconfiguration.json
+amplifyconfiguration.dart
+amplify-build-config.json
+amplify-gradle-config.json
+amplifytools.xcconfig
+.secret-*
+**.sample
+
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+ui-debug.log
+
+# Remix
+.cache/
+build/
+public/build/
+
+# SvelteKit
+.svelte-kit/
+
+# Astro
+.astro/
+
+# Nx
+.nx/
+
+# Gatsby
+.cache/
+public/
+
+# Next.js
+.next/
+out/
+
+# Docusaurus
+.docusaurus/
+
+# Expo
+.expo/
+web-build/
+dist/
+
+# Quasar
+.quasar/
+
+# Tauri
+target/
+
+# Vite
+dist-ssr/
+
+# Vitest
+vitest.config.ts.timestamp-*
+
+# Project specific
+src/config/local.js
+src/assets/temp/
+src/styles/generated/
+public/uploads/
+public/temp/

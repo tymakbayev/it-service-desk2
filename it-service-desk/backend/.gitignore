@@ -1,0 +1,183 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Flask stuff
+instance/
+.webassets-cache
+flask_session/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# Database
+*.sqlite3
+*.db
+
+# Logs
+logs/
+*.log
+
+# Uploads and media
+uploads/
+media/
+static/generated/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+celerybeat.pid.*
+
+# Local development settings
+local_settings.py
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Secrets
+*.pem
+*.key
+*.cert
+*.crt
+*.csr
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+secrets.yml
+secrets.yaml
+secrets.json
+secrets.xml
+
+# Configuration
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+config.local.py
+
+# Generated files
+generated/
+*.generated.*
+
+# Redis
+*.rdb
+dump.rdb
+
+# Data exports
+exports/
+reports/
+*.csv
+*.xlsx
+*.xls
+*.pdf
+
+# Migrations (optional, depends on your workflow)
+# migrations/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Application specific
+data/
+analytics_cache/
+
+# Exclude example files
+!.env.example
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+
+# Poetry
+poetry.lock
+
+# Pyenv
+.python-version
+
+# Pipenv
+Pipfile.lock
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Debug files
+debug.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Profiling data
+*.prof

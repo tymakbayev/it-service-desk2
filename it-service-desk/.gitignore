@@ -1,0 +1,212 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+.env
+venv/
+ENV/
+env/
+.venv/
+.python-version
+celerybeat-schedule
+celerybeat.pid
+*.log
+local_settings.py
+
+# Node.js / React
+node_modules/
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+coverage/
+.next/
+out/
+build/
+.DS_Store
+*.pem
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.vercel
+.turbo
+.cache/
+dist/
+.eslintcache
+.stylelintcache
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+
+# Database
+*.sqlite3
+*.db
+*.sql
+*.dump
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Project specific
+/backend/uploads/
+/backend/data/
+/logs/
+/uploads/
+/media/
+/static/
+/frontend/build/
+/frontend/.env
+/backend/.env
+.env.prod
+.env.staging
+.env.dev
+.env.test
+*.env
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
+# Secrets
+*.pem
+*.key
+*.cert
+*.crt
+*.csr
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+secrets.yml
+secrets.yaml
+secrets.json
+secrets.xml
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+tmp/
+temp/
+
+# Generated files
+generated/
+*.generated.*
+*.min.css
+*.min.js
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Compiled binary addons
+/build/Release
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+
+# Redis
+*.rdb
+dump.rdb
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Testing
+/coverage
+/.nyc_output
+.nyc_output/
+
+# Production
+/build
+
+# Misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Backup files
+*.bak
+*.backup
+*~
+*.old
+*.orig
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# PostgreSQL
+*.pgdump
