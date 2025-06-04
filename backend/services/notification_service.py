@@ -1,9 +1,9 @@
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 
-from ..models.notification_model import NotificationModel
-from ..models.user_model import UserModel
-from ..database import db
+from models.notification import Notification, NotificationType
+from models.user import User
+from config.database import db
 
 class NotificationService:
     def send_notification(self, user_id: int, message: str, notification_type: str) -> int:
@@ -21,12 +21,12 @@ class NotificationService:
             ValueError: If the user doesn't exist
         """
         # Check if user exists
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         if not user:
             raise ValueError(f"User with ID {user_id} not found")
         
         # Create notification
-        notification = NotificationModel(
+        notification = Notification(
             user_id=user_id,
             message=message,
             type=notification_type,
@@ -76,18 +76,18 @@ class NotificationService:
             List of notification objects
         """
         # Check if user exists
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         if not user:
             raise ValueError(f"User with ID {user_id} not found")
         
         # Build query
-        query = NotificationModel.query.filter(NotificationModel.user_id == user_id)
+        query = Notification.query.filter(Notification.user_id == user_id)
         
         if not include_read:
-            query = query.filter(NotificationModel.is_read == False)
+            query = query.filter(Notification.is_read == False)
         
         # Order by creation time (newest first) and apply pagination
-        notifications = query.order_by(NotificationModel.created_at.desc())\
+        notifications = query.order_by(Notification.created_at.desc())\
                             .limit(limit).offset(offset).all()
         
         # Format the notifications
@@ -113,13 +113,13 @@ class NotificationService:
             Count of unread notifications
         """
         # Check if user exists
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         if not user:
             raise ValueError(f"User with ID {user_id} not found")
         
-        return NotificationModel.query.filter(
-            NotificationModel.user_id == user_id,
-            NotificationModel.is_read == False
+        return Notification.query.filter(
+            Notification.user_id == user_id,
+            Notification.is_read == False
         ).count()
     
     def mark_as_read(self, notification_id: int) -> Dict[str, Any]:
@@ -134,7 +134,7 @@ class NotificationService:
         Raises:
             ValueError: If the notification doesn't exist
         """
-        notification = NotificationModel.query.get(notification_id)
+        notification = Notification.query.get(notification_id)
         if not notification:
             raise ValueError(f"Notification with ID {notification_id} not found")
         
@@ -162,14 +162,14 @@ class NotificationService:
             Number of notifications marked as read
         """
         # Check if user exists
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         if not user:
             raise ValueError(f"User with ID {user_id} not found")
         
         # Get all unread notifications
-        unread_notifications = NotificationModel.query.filter(
-            NotificationModel.user_id == user_id,
-            NotificationModel.is_read == False
+        unread_notifications = Notification.query.filter(
+            Notification.user_id == user_id,
+            Notification.is_read == False
         ).all()
         
         # Mark them as read
@@ -191,7 +191,7 @@ class NotificationService:
         Returns:
             True if deletion was successful, False otherwise
         """
-        notification = NotificationModel.query.get(notification_id)
+        notification = Notification.query.get(notification_id)
         if not notification:
             return False
         
@@ -212,8 +212,8 @@ class NotificationService:
         cutoff_date = datetime.now() - datetime.timedelta(days=days)
         
         # Find notifications older than the cutoff date
-        old_notifications = NotificationModel.query.filter(
-            NotificationModel.created_at < cutoff_date
+        old_notifications = Notification.query.filter(
+            Notification.created_at < cutoff_date
         ).all()
         
         # Delete them
@@ -233,7 +233,7 @@ class NotificationService:
             title: Title of the incident
         """
         # Notify admins about new incident
-        admins = UserModel.query.filter(UserModel.role == 'admin').all()
+        admins = User.query.filter(User.role == 'admin').all()
         admin_ids = [admin.id for admin in admins]
         
         message = f"New incident created: {title} (#{incident_id})"
@@ -258,8 +258,8 @@ class NotificationService:
         self.send_notification(assignee_id, assignee_message, 'incident_assigned')
         
         # Confirm to assigner
-        assigner = UserModel.query.get(assigner_id)
-        assignee = UserModel.query.get(assignee_id)
+        assigner = User.query.get(assigner_id)
+        assignee = User.query.get(assignee_id)
         
         if assigner and assignee:
             assigner_message = f"Incident #{incident_id} assigned to {assignee.first_name} {assignee.last_name}"

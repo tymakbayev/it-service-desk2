@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Any
 from datetime import datetime
-from models.equipment_model import EquipmentModel
-from models.user_model import UserModel
+from models.equipment import Equipment
+from models.user import User
 from services.notification_service import NotificationService
 
 class EquipmentService:
@@ -19,7 +19,7 @@ class EquipmentService:
             equipment_id: ID of the newly created equipment
         """
         # Create new equipment record
-        equipment = EquipmentModel(
+        equipment = Equipment(
             name=equipment_data.get('name'),
             type=equipment_data.get('type'),
             serial_number=equipment_data.get('serial_number'),
@@ -55,7 +55,7 @@ class EquipmentService:
         Returns:
             updated_equipment: Dictionary with updated equipment data
         """
-        equipment = EquipmentModel.get_by_id(equipment_id)
+        equipment = Equipment.query.get(equipment_id)
         if not equipment:
             raise ValueError(f"Equipment with ID {equipment_id} not found")
         
@@ -90,7 +90,7 @@ class EquipmentService:
         Returns:
             equipment: Dictionary with equipment data
         """
-        equipment = EquipmentModel.get_by_id(equipment_id)
+        equipment = Equipment.query.get(equipment_id)
         if not equipment:
             raise ValueError(f"Equipment with ID {equipment_id} not found")
         
@@ -106,20 +106,20 @@ class EquipmentService:
         Returns:
             equipment_list: List of equipment dictionaries
         """
-        query = EquipmentModel.query
+        query = Equipment.query
         
         if filters:
             if 'status' in filters:
-                query = query.filter(EquipmentModel.status == filters['status'])
+                query = query.filter(Equipment.status == filters['status'])
             if 'type' in filters:
-                query = query.filter(EquipmentModel.type == filters['type'])
+                query = query.filter(Equipment.type == filters['type'])
             if 'assigned_to' in filters:
-                query = query.filter(EquipmentModel.assigned_to == filters['assigned_to'])
+                query = query.filter(Equipment.assigned_to_id == filters['assigned_to'])
             if 'search' in filters and filters['search']:
                 search_term = f"%{filters['search']}%"
                 query = query.filter(
-                    (EquipmentModel.name.ilike(search_term)) | 
-                    (EquipmentModel.serial_number.ilike(search_term))
+                    (Equipment.name.ilike(search_term)) |
+                    (Equipment.serial_number.ilike(search_term))
                 )
         
         equipment_list = query.all()
@@ -136,11 +136,11 @@ class EquipmentService:
         Returns:
             updated_equipment: Dictionary with updated equipment data
         """
-        equipment = EquipmentModel.get_by_id(equipment_id)
+        equipment = Equipment.query.get(equipment_id)
         if not equipment:
             raise ValueError(f"Equipment with ID {equipment_id} not found")
         
-        user = UserModel.get_by_id(user_id)
+        user = User.query.get(user_id)
         if not user:
             raise ValueError(f"User with ID {user_id} not found")
         
@@ -172,7 +172,7 @@ class EquipmentService:
         Returns:
             updated_equipment: Dictionary with updated equipment data
         """
-        equipment = EquipmentModel.get_by_id(equipment_id)
+        equipment = Equipment.query.get(equipment_id)
         if not equipment:
             raise ValueError(f"Equipment with ID {equipment_id} not found")
         
