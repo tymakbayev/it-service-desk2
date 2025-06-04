@@ -1,11 +1,16 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from utils.jwt_util import jwt_required, get_current_user
 from marshmallow import ValidationError
 
-from ..services.incident_service import IncidentService
-from ..services.auth_service import AuthService
-from ..schemas.incident_schema import IncidentSchema, IncidentUpdateSchema, IncidentStatusSchema, IncidentAssignSchema
-from ..utils.role_required import role_required
+from services.incident_service import IncidentService
+from services.auth_service import AuthService
+from schemas.incident_schema import (
+    IncidentSchema,
+    IncidentUpdateSchema,
+    IncidentStatusSchema,
+    IncidentAssignSchema,
+)
+from utils.role_required import role_required
 
 incident_bp = Blueprint('incidents', __name__, url_prefix='/api/incidents')
 incident_service = IncidentService()
@@ -15,7 +20,8 @@ auth_service = AuthService()
 @jwt_required()
 def get_incidents():
     """Get all incidents with optional filtering"""
-    user_id = get_jwt_identity()
+    current_user = get_current_user()
+    user_id = current_user['id']
     user = auth_service.get_user_by_id(user_id)
     
     # Parse query parameters for filtering
@@ -48,7 +54,8 @@ def get_incidents():
 @jwt_required()
 def get_incident(incident_id):
     """Get a specific incident by ID"""
-    user_id = get_jwt_identity()
+    current_user = get_current_user()
+    user_id = current_user['id']
     user = auth_service.get_user_by_id(user_id)
     
     incident = incident_service.get_incident_by_id(incident_id)
@@ -75,7 +82,8 @@ def get_incident(incident_id):
 @jwt_required()
 def create_incident():
     """Create a new incident"""
-    user_id = get_jwt_identity()
+    current_user = get_current_user()
+    user_id = current_user['id']
     
     try:
         incident_data = IncidentSchema().load(request.json)
@@ -102,7 +110,8 @@ def create_incident():
 @jwt_required()
 def update_incident(incident_id):
     """Update an existing incident"""
-    user_id = get_jwt_identity()
+    current_user = get_current_user()
+    user_id = current_user['id']
     user = auth_service.get_user_by_id(user_id)
     
     incident = incident_service.get_incident_by_id(incident_id)
@@ -142,7 +151,8 @@ def update_incident(incident_id):
 @role_required(['technician', 'admin'])
 def update_incident_status(incident_id):
     """Update the status of an incident (technicians and admins only)"""
-    user_id = get_jwt_identity()
+    current_user = get_current_user()
+    user_id = current_user['id']
     
     incident = incident_service.get_incident_by_id(incident_id)
     if not incident:

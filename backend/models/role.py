@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean
 from sqlalchemy.orm import relationship
 import uuid
 
-from backend.config.database import db, Base
+from config.database import db, Base
 
 class Role(Base):
     """

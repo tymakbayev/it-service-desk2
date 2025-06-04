@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from utils.jwt_util import jwt_required, get_current_user
 from services.notification_service import NotificationService
 from services.auth_service import AuthService
 
@@ -38,7 +38,8 @@ class NotificationController:
           200:
             description: List of notifications
         """
-        user_id = get_jwt_identity()
+        current_user = get_current_user()
+        user_id = current_user['id']
         unread_only = request.args.get('unread_only', 'false').lower() == 'true'
         limit = request.args.get('limit', None)
         
@@ -88,7 +89,8 @@ class NotificationController:
           404:
             description: Notification not found
         """
-        user_id = get_jwt_identity()
+        current_user = get_current_user()
+        user_id = current_user['id']
         
         try:
             updated_notification = self.notification_service.mark_as_read(notification_id, user_id)
@@ -119,7 +121,8 @@ class NotificationController:
           200:
             description: All notifications marked as read
         """
-        user_id = get_jwt_identity()
+        current_user = get_current_user()
+        user_id = current_user['id']
         
         try:
             count = self.notification_service.mark_all_as_read(user_id)

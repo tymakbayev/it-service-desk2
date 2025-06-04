@@ -21,13 +21,10 @@ def get_database_url():
     Получает URL базы данных из переменных окружения или конфигурации
     """
     # Приоритет: переменная окружения -> конфигурация приложения -> значение по умолчанию
-    return os.getenv(
-        'DATABASE_URL', 
-        current_app.config.get(
-            'SQLALCHEMY_DATABASE_URI', 
-            'postgresql://postgres:postgres@localhost:5432/it_service_desk'
-        )
-    )
+    default = 'sqlite:///:memory:'
+    if current_app and current_app.config.get('SQLALCHEMY_DATABASE_URI'):
+        default = current_app.config['SQLALCHEMY_DATABASE_URI']
+    return os.getenv('DATABASE_URL', default)
 
 def init_db(app):
     """
@@ -37,13 +34,8 @@ def init_db(app):
         app: Flask приложение
     """
     db.init_app(app)
-    
-    with app.app_context():
-        # Создаем все таблицы, если они не существуют
-        db.create_all()
-        
-        # Выполняем миграции, если они есть
-        if app.config.get('AUTO_MIGRATE', False):
+    if app.config.get('AUTO_MIGRATE', False):
+        with app.app_context():
             from flask_migrate import Migrate, upgrade
             migrate = Migrate(app, db)
             upgrade()
@@ -55,14 +47,14 @@ def get_engine():
     Returns:
         SQLAlchemy engine
     """
-    return create_engine(
-        get_database_url(),
-        pool_size=5,
-        max_overflow=10,
-        pool_timeout=30,
-        pool_recycle=1800,  # Переподключение каждые 30 минут
-        echo=current_app.config.get('SQLALCHEMY_ECHO', False)
-    )
+    db_url = get_database_url()
+    echo = False
+    if current_app and 'SQLALCHEMY_ECHO' in current_app.config:
+        echo = current_app.config['SQLALCHEMY_ECHO']
+    kwargs = {}
+    if db_url.startswith('postgresql'):
+        kwargs = dict(pool_size=5, max_overflow=10, pool_timeout=30, pool_recycle=1800)
+    return create_engine(db_url, echo=echo, **kwargs)
 
 def get_session_factory():
     """

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt_claims
+from utils.jwt_util import jwt_required, get_current_user
 from services.equipment_service import EquipmentService
 from services.auth_service import AuthService
 from utils.role_required import role_required

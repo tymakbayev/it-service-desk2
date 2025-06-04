@@ -19,7 +19,7 @@ from controllers.analytics_controller import analytics_bp
 
 # Импорт middleware
 from middleware.error_handler import register_error_handlers
-from middleware.auth_middleware import jwt_required, get_current_user
+from utils.jwt_util import jwt_required, get_current_user
 
 # Загрузка переменных окружения
 load_dotenv()

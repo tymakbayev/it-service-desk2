@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import bcrypt
 from models.user_model import UserModel
 from utils.jwt_util import JWTUtil
-from database.db import db
+from config.database import db
 from flask import current_app
 
 class AuthService:

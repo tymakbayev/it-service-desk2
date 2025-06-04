@@ -4,9 +4,9 @@ from sqlalchemy.orm import relationship
 import enum
 import uuid
 
-from backend.config.database import db, Base
-from backend.models.user import User
-from backend.models.equipment import Equipment
+from config.database import db, Base
+from models.user import User
+from models.equipment import Equipment
 
 class IncidentStatus(enum.Enum):
     NEW = "new"

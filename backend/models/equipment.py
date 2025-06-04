@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 import enum
 import uuid
 
-from backend.config.database import db, Base
+from config.database import db, Base
 
 class EquipmentStatus(enum.Enum):
     AVAILABLE = "available"

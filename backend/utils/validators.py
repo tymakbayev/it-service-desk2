@@ -314,7 +314,7 @@ class UserValidator(Validator):
         
         # Валидация роли
         if 'role' in data and data['role']:
-            from backend.config.config import Config
+            from config.config import Config
             role_valid, role_error = cls.validate_enum(data['role'], Config.USER_ROLES)
             if not role_valid:
                 errors['role'] = [role_error]

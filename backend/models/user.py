@@ -5,8 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import enum
 import uuid
 
-from backend.config.database import db, Base
-from backend.models.role import Role
+from config.database import db, Base
+from models.role import Role
 
 class UserStatus(enum.Enum):
     ACTIVE = "active"

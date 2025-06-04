@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 import enum
 import uuid
 
-from backend.config.database import db, Base
+from config.database import db, Base
 
 class NotificationType(enum.Enum):
     """Типы уведомлений в системе"""
@@ -79,7 +79,7 @@ class Notification(Base):
     is_important = Column(Boolean, default=False, nullable=False)
     
     # Мета-данные в формате JSON (опционально)
-    metadata = Column(Text, nullable=True)  # JSON строка с дополнительными данными
+    extra_data = Column(Text, nullable=True)  # JSON строка с дополнительными данными
     
     # Системные поля для отслеживания
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -109,12 +109,12 @@ class Notification(Base):
             'is_read': self.is_read,
             'read_at': self.read_at.isoformat() if self.read_at else None,
             'is_important': self.is_important,
-            'metadata': self.metadata,
+            'metadata': self.extra_data,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
         }
 
 # Добавляем обратную связь в модель User, если она еще не определена
-from backend.models.user import User
+from models.user import User
 if not hasattr(User, 'notifications'):
     User.notifications = relationship("Notification", back_populates="user", cascade="all, delete-orphan")

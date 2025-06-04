@@ -1,17 +1,17 @@
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 
-from backend.models.incident_model import IncidentModel
-from backend.models.user_model import UserModel
-from backend.models.equipment_model import EquipmentModel
-from backend.services.notification_service import NotificationService
-from backend.services.equipment_service import EquipmentService
-from backend.utils.enums import IncidentStatus, IncidentPriority, NotificationType
+from models.incident_model import IncidentModel
+from models.user_model import UserModel
+from models.equipment_model import EquipmentModel
+from services.notification_service import NotificationService
+from services.equipment_service import EquipmentService
+from utils.enums import IncidentStatus, IncidentPriority, NotificationType
 
 class IncidentService:
-    def __init__(self, notification_service: NotificationService, equipment_service: EquipmentService):
-        self.notification_service = notification_service
-        self.equipment_service = equipment_service
+    def __init__(self, notification_service: NotificationService | None = None, equipment_service: EquipmentService | None = None):
+        self.notification_service = notification_service or NotificationService()
+        self.equipment_service = equipment_service or EquipmentService(self.notification_service)
     
     def create_incident(self, incident_data: Dict[str, Any]) -> int:
         """

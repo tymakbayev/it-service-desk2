@@ -84,7 +84,7 @@ class TestingConfig(Config):
     DEBUG = True
     
     # Использование тестовой БД
-    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/it_service_desk_test')
+    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL', 'sqlite:///:memory:')
     
     # Отключение отправки реальных писем
     MAIL_SUPPRESS_SEND = True

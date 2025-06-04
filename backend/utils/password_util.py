@@ -217,3 +217,11 @@ class PasswordUtil:
         # Для простоты в этой версии возвращаем False
         logger.warning("Password compromise check is not implemented")
         return False
+
+
+def hash_password(password: str) -> str:
+    return PasswordUtil.hash_password(password)
+
+
+def check_password(plain_password: str, hashed_password: str) -> bool:
+    return PasswordUtil.verify_password(plain_password, hashed_password)

@@ -1,9 +1,9 @@
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 
-from ..models.notification_model import NotificationModel
-from ..models.user_model import UserModel
-from ..database import db
+from models.notification_model import NotificationModel
+from models.user_model import UserModel
+from config.database import db
 
 class NotificationService:
     def send_notification(self, user_id: int, message: str, notification_type: str) -> int:

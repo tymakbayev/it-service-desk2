@@ -1,7 +1,8 @@
 import jwt
 import datetime
 from typing import Dict, Any, Optional
-from flask import current_app
+from flask import current_app, request, jsonify, g
+from functools import wraps
 
 class JWTUtil:
     @staticmethod
@@ -83,3 +84,39 @@ class JWTUtil:
             current_app.config['JWT_REFRESH_SECRET_KEY'],
             algorithm='HS256'
         )
+
+
+def jwt_required(func=None):
+    """Simple JWT authorization decorator"""
+    if func is None:
+        return lambda f: jwt_required(f)
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        auth_header = request.headers.get('Authorization', '')
+        if not auth_header.startswith('Bearer '):
+            return jsonify({'error': 'Authorization required'}), 401
+        token = auth_header.split(' ')[1]
+        user_data = JWTUtil.verify_token(token)
+        if not user_data:
+            return jsonify({'error': 'Invalid token'}), 401
+        g.current_user = user_data
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+def get_current_user():
+    return getattr(g, 'current_user', None)
+
+
+def generate_token(user_data: Dict[str, Any]) -> str:
+    return JWTUtil.generate_token(user_data)
+
+
+def decode_token(token: str) -> Optional[Dict[str, Any]]:
+    return JWTUtil.verify_token(token)
+
+
+def validate_token(token: str) -> bool:
+    return JWTUtil.verify_token(token) is not None

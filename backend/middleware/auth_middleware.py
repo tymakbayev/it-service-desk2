@@ -3,8 +3,8 @@ from typing import Dict, Any, Callable, Optional
 from flask import request, jsonify, g
 from werkzeug.local import LocalProxy
 
-from backend.utils.jwt_util import JWTUtil
-from backend.models.user_model import UserModel
+from utils.jwt_util import JWTUtil
+from models.user_model import UserModel
 
 class AuthMiddleware:
     @staticmethod
