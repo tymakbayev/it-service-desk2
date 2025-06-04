@@ -1,12 +1,12 @@
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 
-from backend.models.incident_model import IncidentModel
-from backend.models.user_model import UserModel
-from backend.models.equipment_model import EquipmentModel
-from backend.services.notification_service import NotificationService
-from backend.services.equipment_service import EquipmentService
-from backend.utils.enums import IncidentStatus, IncidentPriority, NotificationType
+from models.incident import Incident, IncidentStatus, IncidentPriority
+from models.user import User
+from models.equipment import Equipment
+from services.notification_service import NotificationService
+from services.equipment_service import EquipmentService
+from models.notification import NotificationType
 
 class IncidentService:
     def __init__(self, notification_service: NotificationService, equipment_service: EquipmentService):
@@ -31,7 +31,7 @@ class IncidentService:
                 raise ValueError(f"Оборудование с ID {equipment_id} не найдено")
         
         # Создаем новый инцидент
-        new_incident = IncidentModel(
+        new_incident = Incident(
             title=incident_data['title'],
             description=incident_data['description'],
             status=IncidentStatus.NEW.value,
@@ -54,7 +54,7 @@ class IncidentService:
                 'priority': new_incident.priority
             },
             # Отправляем уведомление техническим специалистам
-            UserModel.query.filter_by(role='technician').all()
+            User.query.filter_by(role='technician').all()
         )
         
         return new_incident.id
@@ -70,7 +70,7 @@ class IncidentService:
         Returns:
             Dict: Обновленный инцидент
         """
-        incident = IncidentModel.query.get(incident_id)
+        incident = Incident.query.get(incident_id)
         if not incident:
             raise ValueError(f"Инцидент с ID {incident_id} не найден")
         
@@ -92,8 +92,8 @@ class IncidentService:
                 'updated_fields': list(data.keys())
             },
             # Отправляем уведомление создателю и назначенному специалисту
-            [UserModel.query.get(incident.created_by), 
-             UserModel.query.get(incident.assigned_to) if incident.assigned_to else None]
+            [User.query.get(incident.created_by_id),
+             User.query.get(incident.assigned_to_id) if incident.assigned_to_id else None]
         )
         
         return incident.to_dict()
@@ -108,7 +108,7 @@ class IncidentService:
         Returns:
             Dict: Данные инцидента
         """
-        incident = IncidentModel.query.get(incident_id)
+        incident = Incident.query.get(incident_id)
         if not incident:
             raise ValueError(f"Инцидент с ID {incident_id} не найден")
         
@@ -124,33 +124,33 @@ class IncidentService:
         Returns:
             List[Dict]: Список инцидентов
         """
-        query = IncidentModel.query
+        query = Incident.query
         
         if filters:
             # Применяем фильтры
             if 'status' in filters:
-                query = query.filter(IncidentModel.status == filters['status'])
+                query = query.filter(Incident.status == filters['status'])
             
             if 'priority' in filters:
-                query = query.filter(IncidentModel.priority == filters['priority'])
+                query = query.filter(Incident.priority == filters['priority'])
             
             if 'created_by' in filters:
-                query = query.filter(IncidentModel.created_by == filters['created_by'])
+                query = query.filter(Incident.created_by_id == filters['created_by'])
             
             if 'assigned_to' in filters:
-                query = query.filter(IncidentModel.assigned_to == filters['assigned_to'])
+                query = query.filter(Incident.assigned_to_id == filters['assigned_to'])
             
             if 'equipment_id' in filters:
-                query = query.filter(IncidentModel.equipment_id == filters['equipment_id'])
+                query = query.filter(Incident.equipment_id == filters['equipment_id'])
             
             if 'date_from' in filters:
-                query = query.filter(IncidentModel.created_at >= filters['date_from'])
+                query = query.filter(Incident.created_at >= filters['date_from'])
             
             if 'date_to' in filters:
-                query = query.filter(IncidentModel.created_at <= filters['date_to'])
+                query = query.filter(Incident.created_at <= filters['date_to'])
         
         # Сортировка по умолчанию - сначала новые
-        incidents = query.order_by(IncidentModel.created_at.desc()).all()
+        incidents = query.order_by(Incident.created_at.desc()).all()
         
         return [incident.to_dict() for incident in incidents]
     
@@ -165,11 +165,11 @@ class IncidentService:
         Returns:
             Dict: Обновленный инцидент
         """
-        incident = IncidentModel.query.get(incident_id)
+        incident = Incident.query.get(incident_id)
         if not incident:
             raise ValueError(f"Инцидент с ID {incident_id} не найден")
         
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         if not user:
             raise ValueError(f"Пользователь с ID {user_id} не найден")
         
@@ -191,7 +191,7 @@ class IncidentService:
                 'assigned_to_id': user.id
             },
             # Уведомляем создателя инцидента и назначенного специалиста
-            [UserModel.query.get(incident.created_by), user]
+            [User.query.get(incident.created_by_id), user]
         )
         
         return incident.to_dict()
@@ -207,7 +207,7 @@ class IncidentService:
         Returns:
             Dict: Обновленный инцидент
         """
-        incident = IncidentModel.query.get(incident_id)
+        incident = Incident.query.get(incident_id)
         if not incident:
             raise ValueError(f"Инцидент с ID {incident_id} не найден")
         
@@ -237,8 +237,8 @@ class IncidentService:
                 'new_status': new_status
             },
             # Уведомляем создателя и назначенного специалиста
-            [UserModel.query.get(incident.created_by), 
-             UserModel.query.get(incident.assigned_to) if incident.assigned_to else None]
+            [User.query.get(incident.created_by_id),
+             User.query.get(incident.assigned_to_id) if incident.assigned_to_id else None]
         )
         
         return incident.to_dict()

@@ -3,8 +3,8 @@ from typing import Dict, Any, Callable, Optional
 from flask import request, jsonify, g
 from werkzeug.local import LocalProxy
 
-from backend.utils.jwt_util import JWTUtil
-from backend.models.user_model import UserModel
+from utils.jwt_util import JWTUtil
+from models.user import User
 
 class AuthMiddleware:
     @staticmethod
@@ -30,7 +30,7 @@ class AuthMiddleware:
             return None
         
         # Проверяем существование пользователя в базе данных
-        user = UserModel.query.get(user_data['id'])
+        user = User.query.get(user_data['id'])
         if not user:
             return None
         

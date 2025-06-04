@@ -3,6 +3,27 @@ import datetime
 from typing import Dict, Any, Optional
 from flask import current_app
 
+
+def generate_token(payload: Dict[str, Any]) -> str:
+    """Generate a JWT token with default expiration."""
+    payload = payload.copy()
+    payload.setdefault('exp', datetime.datetime.utcnow() + datetime.timedelta(hours=1))
+    return jwt.encode(payload, current_app.config['JWT_SECRET_KEY'], algorithm='HS256')
+
+
+def decode_token(token: str) -> Dict[str, Any]:
+    """Decode a JWT token and return its payload."""
+    return jwt.decode(token, current_app.config['JWT_SECRET_KEY'], algorithms=['HS256'])
+
+
+def validate_token(token: str) -> bool:
+    """Return True if token is valid, otherwise False."""
+    try:
+        decode_token(token)
+        return True
+    except Exception:
+        return False
+
 class JWTUtil:
     @staticmethod
     def generate_token(user_data: Dict[str, Any]) -> str:

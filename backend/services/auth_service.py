@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 import bcrypt
-from models.user_model import UserModel
+from models.user import User
 from utils.jwt_util import JWTUtil
-from database.db import db
+from config.database import db
 from flask import current_app
 
 class AuthService:
@@ -18,7 +18,7 @@ class AuthService:
         Returns:
             dict: JWT tokens and user info or None if authentication fails
         """
-        user = UserModel.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
         
         if not user or not bcrypt.checkpw(password.encode('utf-8'), user.password_hash):
             return None
@@ -59,9 +59,9 @@ class AuthService:
             int: User ID if registration successful, None otherwise
         """
         # Check if user already exists
-        existing_user = UserModel.query.filter(
-            (UserModel.username == user_data['username']) | 
-            (UserModel.email == user_data['email'])
+        existing_user = User.query.filter(
+            (User.username == user_data['username']) |
+            (User.email == user_data['email'])
         ).first()
         
         if existing_user:
@@ -71,7 +71,7 @@ class AuthService:
         password_hash = bcrypt.hashpw(user_data['password'].encode('utf-8'), bcrypt.gensalt())
         
         # Create new user
-        new_user = UserModel(
+        new_user = User(
             username=user_data['username'],
             email=user_data['email'],
             password_hash=password_hash,
@@ -102,7 +102,7 @@ class AuthService:
             return None
             
         user_id = payload.get('user_id')
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         
         if not user:
             return None
@@ -132,7 +132,7 @@ class AuthService:
             return None
             
         user_id = payload.get('user_id')
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         
         if not user:
             return None
@@ -166,7 +166,7 @@ class AuthService:
         Returns:
             list: List of permissions
         """
-        user = UserModel.query.get(user_id)
+        user = User.query.get(user_id)
         
         if not user:
             return []

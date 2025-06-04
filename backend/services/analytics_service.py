@@ -2,10 +2,10 @@ from datetime import datetime, timedelta
 from sqlalchemy import func, and_, or_, desc
 from typing import Dict, List, Any, Optional, Union
 
-from ..models.incident_model import IncidentModel
-from ..models.equipment_model import EquipmentModel
-from ..models.user_model import UserModel
-from ..database import db
+from models.incident import Incident
+from models.equipment import Equipment
+from models.user import User
+from config.database import db
 
 class AnalyticsService:
     def get_incident_stats(self, filters: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
